@@ -23,7 +23,15 @@ function crazyawesome_body_classes( $classes ) {
 	if ( ! is_singular() ) {
 		$classes[] = 'hfeed';
 	}
-
+        
+        //new rule testing for an active sidebar
+        if ( is_active_sidebar('sidebar-1' ) ) {
+            $classes[] = 'has-sidebar';
+        } else{
+            $classes[] = 'no-sidebar';
+        }
+        
+        
 	return $classes;
 }
 add_filter( 'body_class', 'crazyawesome_body_classes' );

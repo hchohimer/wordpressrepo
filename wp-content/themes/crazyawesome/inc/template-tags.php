@@ -1,10 +1,10 @@
 <?php
 /**
- * Custom template tags for this theme
+ * Custom template tags for this theme.
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
- * @package CrazyAwesome
+ * @package Humescores
  */
 
 if ( ! function_exists( 'crazyawesome_posted_on' ) ) :
@@ -19,7 +19,7 @@ function crazyawesome_posted_on() {
 
 	$time_string = sprintf( $time_string,
 		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date() ),
+		esc_html( get_the_date() ), 
 		esc_attr( get_the_modified_date( 'c' ) ),
 		esc_html( get_the_modified_date() )
 	);
@@ -34,16 +34,16 @@ function crazyawesome_posted_on() {
 		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 	);
 
-	echo ' <span class="byline"> ' . $byline . '</span> <span class="posted-on">' . $posted_on . '</span>'; // WPCS: XSS OK.
-        
-        if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
+	echo '<span class="byline"> ' . $byline . '</span> <span class="posted-on">' . $posted_on . '</span>'; // WPCS: XSS OK.
+
+	if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 		echo ' <span class="comments-link">';
 		/* translators: %s: post title */
 		comments_popup_link( sprintf( wp_kses( __( 'Leave a Comment<span class="screen-reader-text"> on %s</span>', 'crazyawesome' ), array( 'span' => array( 'class' => array() ) ) ), get_the_title() ) );
 		echo '</span>';
 	}
-        
-        edit_post_link(
+
+	edit_post_link(
 		sprintf(
 			/* translators: %s: Name of current post */
 			esc_html__( 'Edit %s', 'crazyawesome' ),
@@ -52,8 +52,7 @@ function crazyawesome_posted_on() {
 		' <span class="edit-link">',
 		'</span>'
 	);
-        
-        
+
 }
 endif;
 
@@ -64,7 +63,6 @@ if ( ! function_exists( 'crazyawesome_entry_footer' ) ) :
 function crazyawesome_entry_footer() {
 	// Hide tag text for pages.
 	if ( 'post' === get_post_type() ) {
-		
 
 		/* translators: used between list items, there is a space after the comma */
 		$tags_list = get_the_tag_list( '', esc_html__( ', ', 'crazyawesome' ) );
@@ -73,20 +71,20 @@ function crazyawesome_entry_footer() {
 		}
 	}
 
-	
-
-	
 }
 endif;
-//display cat list
-function crazyawesome_catagory_list(){
-    /* translators: used between list items, there is a space after the comma */
-		$categories_list = get_the_category_list( esc_html__( ', ', 'crazyawesome' ) );
-		if ( $categories_list && crazyawesome_categorized_blog() ) {
-			printf( '<span class="cat-links">' . esc_html__( '%1$s', 'crazyawesome' ) . '</span>', $categories_list ); // WPCS: XSS OK.
-		}
-}
 
+/**
+ * Display category list
+ */
+
+function crazyawesome_the_category_list() {
+	/* translators: used between list items, there is a space after the comma */
+	$categories_list = get_the_category_list( esc_html__( ', ', 'crazyawesome' ) );
+	if ( $categories_list && crazyawesome_categorized_blog() ) {
+		printf( '<span class="cat-links">' . esc_html__( '%1$s', 'crazyawesome' ) . '</span>', $categories_list ); // WPCS: XSS OK.
+	}
+}
 
 /**
  * Returns true if a blog has more than 1 category.
@@ -130,3 +128,18 @@ function crazyawesome_category_transient_flusher() {
 }
 add_action( 'edit_category', 'crazyawesome_category_transient_flusher' );
 add_action( 'save_post',     'crazyawesome_category_transient_flusher' );
+
+
+/**
+ * Post navigation (previous / next post) for single posts.
+ */
+function crazyawesome_post_navigation() {
+	the_post_navigation( array(
+		'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next', 'crazyawesome' ) . '</span> ' .
+			'<span class="screen-reader-text">' . __( 'Next post:', 'crazyawesome' ) . '</span> ' .
+			'<span class="post-title">%title</span>',
+		'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous', 'crazyawesome' ) . '</span> ' .
+			'<span class="screen-reader-text">' . __( 'Previous post:', 'crazyawesome' ) . '</span> ' .
+			'<span class="post-title">%title</span>',
+	) );
+}

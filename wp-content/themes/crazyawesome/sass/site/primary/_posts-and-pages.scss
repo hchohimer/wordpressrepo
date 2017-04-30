@@ -96,3 +96,52 @@
 	clear: both;
 	margin: 0 0 1.5em;
 }
+
+/* Custom post meta rules for single post */
+
+.no-sidebar{
+    
+    .entry-meta{
+        margin-top: 1.5em;
+    }
+    
+    @media screen and (min-width: $query_medium) {
+        .entry-meta{
+            margin-top: 2.25em;
+            font-size: 80%;
+        
+            a{
+                font-size: 110%;
+                display: block;
+                border-bottom: 3px solid white;
+                
+                &:hover,
+                &:focus{
+                border-bottom-color: $color-interactive;
+                }
+            }
+        } 
+        .byine,
+        .posten-on,
+        .comments-link,
+        .edit-link{
+            display: block;
+            margin-bottom: 1em;
+
+            &::before,
+            &::after{
+            margin: 0;
+            content: "";
+            } 
+        }
+            
+            
+            
+            
+            
+            .extra{
+                display: inline;
+            }
+ 
+}
+}

@@ -18,14 +18,25 @@
 			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		endif;
 
-		if ( 'post' === get_post_type() ) : ?>
+		if (is_active_sidebar( 'sidebar-1' ) ) : ?>
 		<div class="entry-meta">
 			<?php crazyawesome_posted_on(); ?>
 		</div><!-- .entry-meta -->
 		<?php
 		endif; ?>
 	</header><!-- .entry-header -->
-
+        <section class="post-content">
+            
+            <?php
+            if ( !is_active_sidebar( 'sidebar-1' ) ) : ?>
+            <div class="post-content-wrap">
+		<div class="entry-meta">
+			<?php crazyawesome_posted_on(); ?>
+		</div><!-- .entry-meta -->
+                <div class="post-content-body>"
+		<?php
+		endif; ?>
+                
 	<div class="entry-content">
 		<?php
 			the_content( sprintf(
@@ -44,4 +55,23 @@
 	<footer class="entry-footer">
 		<?php crazyawesome_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
+        
+         <?php
+            if ( !is_active_sidebar( 'sidebar-1' ) ) : ?>
+            </div> <!--close post content body-->
+            </div> <!--close post content wrap-->
+        
+            <?php endif; ?>
+        <?php
+        crazyawesome_post_navigation();
+
+			// If comments are open or we have at least one comment, load up the comment template.
+			if ( comments_open() || get_comments_number() ) :
+				comments_template();
+			endif
+        ?>
+        </section> <!--post content-->
+        <?php
+        get_sidebar();
+        ?>
 </article><!-- #post-## -->
